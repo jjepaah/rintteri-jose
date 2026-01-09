@@ -1,0 +1,83 @@
+#!/bin/bash
+
+_NAME=$(hostname)
+_IP=$(hostname -I)
+_OCTOPI_VERSION=$(cat /etc/octopi_version || echo "unknown")
+_KLIPPER_VERSION=$(cd ~/klipper && git describe --tags --dirty || echo "unknown")
+_MOONRAKER_VERSION=$(cd ~/moonraker && git describe --tags --dirty --always || echo "unknown")
+_MAINSAIL_VERSION=$(jq -r ".version" ~/mainsail/release_info.json | sed "s/^v//")
+
+clear
+
+echo "--------------------------------------------------------------------------------------------------------"
+echo
+# Colors
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+YELLOW=$(tput setaf 3)
+BLUE=$(tput setaf 4)
+CYAN=$(tput setaf 6)
+RESET=$(tput sgr0)
+
+# Function to draw bars
+draw_bar() {
+    local value=$1
+    local max=$2
+    local length=20
+    local filled=$(( value * length / max ))
+    local empty=$(( length - filled ))
+    printf "["
+    printf "%0.s#" $(seq 1 $filled)
+    printf "%0.s-" $(seq 1 $empty)
+    printf "] %d%%\n" "$value"
+}
+
+# Uptime and load
+echo -e "${BLUE}Uptime & Load:${RESET}"
+uptime
+
+# CPU Usage
+CPU=$(top -bn1 | grep "Cpu(s)" | awk '{printf "%d", 100-$8}')
+echo -e "${BLUE}CPU:${RESET}"
+draw_bar "$CPU" 100
+
+# CPU Temp
+if [ -f /sys/class/thermal/thermal_zone0/temp ]; then
+    TEMP=$(awk '{printf "%.0f", $1/1000}' /sys/class/thermal/thermal_zone0/temp)
+    echo -e "${BLUE}CPU Temp:${RESET} ${TEMP}°C"
+fi
+
+# Memory usage
+MEM_USED=$(free -m | awk 'NR==2{printf "%d", $3}')
+MEM_TOTAL=$(free -m | awk 'NR==2{printf "%d", $2}')
+MEM_PERCENT=$(( MEM_USED * 100 / MEM_TOTAL ))
+echo -e "${BLUE}RAM:${RESET}"
+draw_bar "$MEM_PERCENT" 100
+echo -e "Used: ${MEM_USED}MB / Total: ${MEM_TOTAL}MB"
+
+# Disk usage
+DISK_USED=$(df -h / | awk 'NR==2{print $3}')
+DISK_TOTAL=$(df -h / | awk 'NR==2{print $2}')
+DISK_PERCENT=$(df / | awk 'NR==2{print $5}' | sed 's/%//')
+echo -e "${BLUE}Disk:${RESET}"
+draw_bar "$DISK_PERCENT" 100
+echo -e "Used: $DISK_USED / Total: $DISK_TOTAL"
+echo
+echo "--------------------------------------------------------------------------------------------------------"
+echo "OctoPi version    : $_OCTOPI_VERSION | Klipper version    : $_KLIPPER_VERSION"
+echo "Mainsail version  : $_MAINSAIL_VERSION | Moonraker version    : $_MOONRAKER_VERSION"
+echo "--------------------------------------------------------------------------------------------------------"
+echo
+echo "         _               _                    _             _              _                  _ "
+echo "        / /\            / /\                /\ \           /\_\           / /\               / /\ "
+echo "       / /  \          / /  \              /  \ \         / / /  _       / /  \             / /  \ "
+echo "      / / /\ \        / / /\ \            / /\ \ \       / / /  /\_\    / / /\ \           / / /\ \__"
+echo "     / / /\ \ \      / / /\ \ \          / / /\ \ \     / / /__/ / /   / / /\ \ \         / / /\ \___\ "
+echo "    / / /\ \_\ \    / / /  \ \ \        / / /  \ \_\   / /\_____/ /   / / /  \ \ \        \ \ \ \/___/"
+echo "   / / /\ \ \___\  / / /___/ /\ \      / / /    \/_/  / /\_______/   / / /___/ /\ \        \ \ \ "
+echo "  / / /  \ \ \__/ / / /_____/ /\ \    / / /          / / /\ \ \     / / /_____/ /\ \   _    \ \ \ "
+echo " / / /____\_\ \  / /_________/\ \ \  / / /________  / / /  \ \ \   / /_________/\ \ \ /_/\__/ / /"
+echo "/ / /__________\/ / /_       __\ \_\/ / /_________\/ / /    \ \ \ / / /_       __\ \_\\ \/___/ /"
+echo "\/_____________/\_\___\     /____/_/\/____________/\/_/      \_\_\\_\___\     /____/_/ \_____\/"
+echo
+echo "--------------------------------------------------------------------------------------------------------"

@@ -1,0 +1,14 @@
+[include mainsail.cfg]
+[mcu]
+serial: /dev/serial/by-id/usb-Prusa_Research__prusa3d.com__Original_Prusa_i3_MK2_CZPX3419X003XK43457-if00
+baud: 250000
+
+[virtual_sdcard]
+path: /home/jjepaah/printer_data/gcodes
+on_error_gcode: CANCEL_PRINT
+
+[printer]
+kinematics: none
+max_velocity: 1000
+max_accel: 1000
+

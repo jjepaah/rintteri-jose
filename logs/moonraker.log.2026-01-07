@@ -1,0 +1,187 @@
+-------------------- Log Start | Wed Jan  7 01:10:01 2026 --------------------
+platform: Linux-6.12.47+rpt-rpi-v7-armv7l-with-glibc2.36
+data_path: /home/jjepaah/printer_data
+is_default_data_path: False
+config_file: /home/jjepaah/printer_data/config/moonraker.conf
+backup_config: /home/jjepaah/printer_data/config/.moonraker.conf.bkp
+startup_warnings: []
+verbose: False
+debug: False
+asyncio_debug: False
+is_backup_config: False
+is_python_package: False
+instance_uuid: f729aa021b9a4236aeb511052857e838
+unix_socket_path: /home/jjepaah/printer_data/comms/moonraker.sock
+structured_logging: False
+software_version: v0.9.3-130-g5b92e52
+git_branch: master
+git_remote: origin
+git_repo_url: https://github.com/Arksine/moonraker
+modified_files: []
+unofficial_components: []
+log_file: /home/jjepaah/printer_data/logs/moonraker.log
+python_version: 3.11.2 (main, Apr 28 2025, 14:11:48) [GCC 12.2.0]
+launch_args: /home/jjepaah/moonraker-env/bin/python /home/jjepaah/moonraker/moonraker/moonraker.py -d /home/jjepaah/printer_data
+msgspec_enabled: True
+uvloop_enabled: True
+
+#################### Moonraker Configuration ####################
+
+[server]
+host = 0.0.0.0
+port = 7125
+klippy_uds_address = /home/jjepaah/printer_data/comms/klippy.sock
+
+[authorization]
+trusted_clients = 
+	192.168.0.0/16
+	10.0.0.0/8
+	127.0.0.0/8
+	169.254.0.0/16
+	172.16.0.0/12
+	192.168.0.0/16
+	FC00::/7
+	FE80::/10
+	::1/128
+cors_domains = 
+	*.lan
+	*.local
+	*://localhost
+	*://localhost:*
+	*://my.mainsail.xyz
+	*://app.fluidd.xyz
+
+[octoprint_compat]
+
+[history]
+
+[update_manager]
+channel = dev
+refresh_interval = 168
+
+[update_manager mainsail]
+path = /home/jjepaah/mainsail
+repo = mainsail-crew/mainsail
+channel = stable
+type = web
+persistent_files = 
+	config.json
+
+[update_manager mainsail-config]
+managed_services = klipper
+origin = https://github.com/mainsail-crew/mainsail-config.git
+path = /home/jjepaah/mainsail-config
+primary_branch = master
+type = git_repo
+
+#################################################################
+All Configuration Files:
+/home/jjepaah/printer_data/config/moonraker.conf
+#################################################################
+Loading Sqlite database provider. Sqlite Version: 3.40.1
+Unsafe Shutdown Count: 2
+
+System Info:
+
+***python***
+  version: (3, 11, 2, 'final', 0)
+  version_string: 3.11.2 (main, Apr 28 2025, 14:11:48) [GCC 12.2.0]
+
+***cpu_info***
+  cpu_count: 4
+  bits: 32bit
+  processor: armv7l
+  cpu_desc: ARMv7 Processor rev 4 (v7l)
+  serial_number: 4d8fdbcc
+  hardware_desc: BCM2835
+  model: Raspberry Pi 3 Model B Rev 1.2
+  total_memory: 890344
+  memory_units: kB
+
+***sd_info***
+  manufacturer_id: 28
+  manufacturer: Unknown
+  oem_id: 4245
+  product_name:      
+  product_revision: 0.1
+  serial_number: 990151c2
+  manufacturer_date: 10/2013
+  capacity: 59.7 GiB
+  total_bytes: 64054362112
+
+***distribution***
+  name: Raspbian GNU/Linux 12 (bookworm)
+  id: raspbian
+  version: 12
+  version_parts: {'major': '12', 'minor': '', 'build_number': ''}
+  like: debian
+  codename: bookworm
+  release_info: {'name': '1.', 'version_id': '1.0', 'id': 'octopi'}
+  kernel_version: 6.12.47+rpt-rpi-v7
+
+***virtualization***
+  virt_type: none
+  virt_identifier: none
+
+***network***
+
+***canbus***
+
+***Allowed Services***
+  klipper_mcu
+  webcamd
+  MoonCord
+  KlipperScreen
+  moonraker-telegram-bot
+  moonraker-obico
+  sonar
+  crowsnest
+  octoeverywhere
+  ratos-configurator
+Found libcamera Python module, version: v0.5.2+99-bfd68f78
+
+Systemd unit moonraker.service:
+unit_name: moonraker.service
+is_default: True
+manager: systemd
+Properties:
+**Requires=['system.slice', '-.mount', 'sysinit.target', 'network-online.target']
+**After=['basic.target', 'system.slice', '-.mount', 'sysinit.target', 'network-online.target', 'systemd-journald.socket']
+**SupplementaryGroups=['moonraker-admin']
+**EnvironmentFiles=/home/jjepaah/printer_data/systemd/moonraker.env
+**ExecStart=/home/jjepaah/moonraker-env/bin/python $MOONRAKER_ARGS
+**WorkingDirectory=/home/jjepaah/moonraker
+**FragmentPath=/etc/systemd/system/moonraker.service
+**Description=API Server for Klipper SV1
+**User=jjepaah
+
+Systemd unit klipper.service:
+unit_name: klipper.service
+is_default: True
+manager: systemd
+Properties:
+**Requires=['sysinit.target', '-.mount', 'system.slice']
+**After=['network.target', 'basic.target', 'system.slice', 'sysinit.target', '-.mount', 'systemd-journald.socket']
+**SupplementaryGroups=[]
+**EnvironmentFiles=[]
+**ExecStart=/home/jjepaah/klippy-env/bin/python /home/jjepaah/klipper/klippy/klippy.py /home/jjepaah/printer_data/config/printer.cfg -a /home/jjepaah/printer_data/comms/klippy.sock -l /home/jjepaah/printer_data/logs/klippy.log
+**WorkingDirectory=/home/jjepaah/klipper
+**FragmentPath=/etc/systemd/system/klipper.service
+**Description=Klipper 3D Printer Firmware
+**User=jjepaah
+Git Repo moonraker: No warnings detected
+Git Repo klipper: No warnings detected
+Git Repo mainsail-config: No warnings detected
+Klipper Version: v0.13.0-428-ga8cbc935
+2026-01-07 03:10:01,330 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 192.168.1.164
+2026-01-07 04:11:45,284 [authorization.py:_prune_conn_handler()] - Trusted Connection Expired, IP: 192.168.1.164
+2026-01-07 16:35:04,824 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 192.168.1.250
+2026-01-07 16:35:04,828 [application.py:log_request()] - 101 GET /websocket (192.168.1.250) [_TRUSTED_USER_] 6.39ms
+2026-01-07 16:35:04,829 [websockets.py:open()] - Websocket Opened: ID: 1905327984, Proxied: True, User Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36, Host Name: 192.168.1.164
+2026-01-07 16:35:04,834 [websockets.py:_handle_identify()] - Websocket 1905327984 Client Identified - Name: mainsail, Version: 2.16.0, Type: web
+2026-01-07 16:39:56,657 [application.py:log_request()] - 101 GET /websocket (192.168.1.250) [_TRUSTED_USER_] 2.35ms
+2026-01-07 16:39:56,658 [websockets.py:open()] - Websocket Opened: ID: 1905286032, Proxied: True, User Agent: BBL-Slicer/v01.10.01.50 (dark) Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko), Host Name: 192.168.1.164
+2026-01-07 16:39:56,665 [websockets.py:_handle_identify()] - Websocket 1905286032 Client Identified - Name: mainsail, Version: 2.16.0, Type: web
+2026-01-07 16:40:05,694 [websockets.py:on_close()] - Websocket Closed: ID: 1905286032 Close Code: 1001, Close Reason: None, Pong Time Elapsed: 9.04
+2026-01-07 17:37:03,585 [websockets.py:on_close()] - Websocket Closed: ID: 1905327984 Close Code: 1001, Close Reason: None, Pong Time Elapsed: 18.41
+2026-01-07 17:41:45,375 [authorization.py:_prune_conn_handler()] - Trusted Connection Expired, IP: 192.168.1.250

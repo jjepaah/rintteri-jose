@@ -1,0 +1,212 @@
+-------------------- Log Start | Fri Jan  9 01:10:01 2026 --------------------
+platform: Linux-6.12.47+rpt-rpi-v7-armv7l-with-glibc2.36
+data_path: /home/jjepaah/printer_data
+is_default_data_path: False
+config_file: /home/jjepaah/printer_data/config/moonraker.conf
+backup_config: /home/jjepaah/printer_data/config/.moonraker.conf.bkp
+startup_warnings: []
+verbose: False
+debug: False
+asyncio_debug: False
+is_backup_config: False
+is_python_package: False
+instance_uuid: f729aa021b9a4236aeb511052857e838
+unix_socket_path: /home/jjepaah/printer_data/comms/moonraker.sock
+structured_logging: False
+software_version: v0.9.3-130-g5b92e52
+git_branch: master
+git_remote: origin
+git_repo_url: https://github.com/Arksine/moonraker
+modified_files: []
+unofficial_components: []
+log_file: /home/jjepaah/printer_data/logs/moonraker.log
+python_version: 3.11.2 (main, Apr 28 2025, 14:11:48) [GCC 12.2.0]
+launch_args: /home/jjepaah/moonraker-env/bin/python /home/jjepaah/moonraker/moonraker/moonraker.py -d /home/jjepaah/printer_data
+msgspec_enabled: True
+uvloop_enabled: True
+
+#################### Moonraker Configuration ####################
+
+[server]
+host = 0.0.0.0
+port = 7125
+klippy_uds_address = /home/jjepaah/printer_data/comms/klippy.sock
+
+[authorization]
+trusted_clients = 
+	192.168.0.0/16
+	10.0.0.0/8
+	127.0.0.0/8
+	169.254.0.0/16
+	172.16.0.0/12
+	192.168.0.0/16
+	FC00::/7
+	FE80::/10
+	::1/128
+cors_domains = 
+	*.lan
+	*.local
+	*://localhost
+	*://localhost:*
+	*://my.mainsail.xyz
+	*://app.fluidd.xyz
+
+[octoprint_compat]
+
+[history]
+
+[update_manager]
+channel = dev
+refresh_interval = 168
+
+[update_manager mainsail]
+path = /home/jjepaah/mainsail
+repo = mainsail-crew/mainsail
+channel = stable
+type = web
+persistent_files = 
+	config.json
+
+[update_manager mainsail-config]
+managed_services = klipper
+origin = https://github.com/mainsail-crew/mainsail-config.git
+path = /home/jjepaah/mainsail-config
+primary_branch = master
+type = git_repo
+
+#################################################################
+All Configuration Files:
+/home/jjepaah/printer_data/config/moonraker.conf
+#################################################################
+Loading Sqlite database provider. Sqlite Version: 3.40.1
+Unsafe Shutdown Count: 2
+
+System Info:
+
+***python***
+  version: (3, 11, 2, 'final', 0)
+  version_string: 3.11.2 (main, Apr 28 2025, 14:11:48) [GCC 12.2.0]
+
+***cpu_info***
+  cpu_count: 4
+  bits: 32bit
+  processor: armv7l
+  cpu_desc: ARMv7 Processor rev 4 (v7l)
+  serial_number: 4d8fdbcc
+  hardware_desc: BCM2835
+  model: Raspberry Pi 3 Model B Rev 1.2
+  total_memory: 890344
+  memory_units: kB
+
+***sd_info***
+  manufacturer_id: 28
+  manufacturer: Unknown
+  oem_id: 4245
+  product_name:      
+  product_revision: 0.1
+  serial_number: 990151c2
+  manufacturer_date: 10/2013
+  capacity: 59.7 GiB
+  total_bytes: 64054362112
+
+***distribution***
+  name: Raspbian GNU/Linux 12 (bookworm)
+  id: raspbian
+  version: 12
+  version_parts: {'major': '12', 'minor': '', 'build_number': ''}
+  like: debian
+  codename: bookworm
+  release_info: {'name': '1.', 'version_id': '1.0', 'id': 'octopi'}
+  kernel_version: 6.12.47+rpt-rpi-v7
+
+***virtualization***
+  virt_type: none
+  virt_identifier: none
+
+***network***
+
+***canbus***
+
+***Allowed Services***
+  klipper_mcu
+  webcamd
+  MoonCord
+  KlipperScreen
+  moonraker-telegram-bot
+  moonraker-obico
+  sonar
+  crowsnest
+  octoeverywhere
+  ratos-configurator
+Found libcamera Python module, version: v0.5.2+99-bfd68f78
+
+Systemd unit moonraker.service:
+unit_name: moonraker.service
+is_default: True
+manager: systemd
+Properties:
+**Requires=['system.slice', '-.mount', 'sysinit.target', 'network-online.target']
+**After=['basic.target', 'system.slice', '-.mount', 'sysinit.target', 'network-online.target', 'systemd-journald.socket']
+**SupplementaryGroups=['moonraker-admin']
+**EnvironmentFiles=/home/jjepaah/printer_data/systemd/moonraker.env
+**ExecStart=/home/jjepaah/moonraker-env/bin/python $MOONRAKER_ARGS
+**WorkingDirectory=/home/jjepaah/moonraker
+**FragmentPath=/etc/systemd/system/moonraker.service
+**Description=API Server for Klipper SV1
+**User=jjepaah
+
+Systemd unit klipper.service:
+unit_name: klipper.service
+is_default: True
+manager: systemd
+Properties:
+**Requires=['sysinit.target', '-.mount', 'system.slice']
+**After=['network.target', 'basic.target', 'system.slice', 'sysinit.target', '-.mount', 'systemd-journald.socket']
+**SupplementaryGroups=[]
+**EnvironmentFiles=[]
+**ExecStart=/home/jjepaah/klippy-env/bin/python /home/jjepaah/klipper/klippy/klippy.py /home/jjepaah/printer_data/config/printer.cfg -a /home/jjepaah/printer_data/comms/klippy.sock -l /home/jjepaah/printer_data/logs/klippy.log
+**WorkingDirectory=/home/jjepaah/klipper
+**FragmentPath=/etc/systemd/system/klipper.service
+**Description=Klipper 3D Printer Firmware
+**User=jjepaah
+Git Repo moonraker: No warnings detected
+Git Repo klipper: No warnings detected
+Git Repo mainsail-config: No warnings detected
+Klipper Version: v0.13.0-428-ga8cbc935
+2026-01-09 03:10:01,414 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 192.168.1.164
+2026-01-09 04:11:45,621 [authorization.py:_prune_conn_handler()] - Trusted Connection Expired, IP: 192.168.1.164
+2026-01-09 20:16:22,509 [klippy_connection.py:_process_status_update()] - Klippy has shutdown
+2026-01-09 20:16:22,514 [proc_stats.py:_handle_shutdown()] - 
+Moonraker System Usage Statistics:
+System Time: 1767982553.339548, Usage: 1.46%, Memory: 50700 kB
+System Time: 1767982554.341034, Usage: 1.35%, Memory: 50700 kB
+System Time: 1767982555.341640, Usage: 1.48%, Memory: 50700 kB
+System Time: 1767982556.342043, Usage: 1.42%, Memory: 50700 kB
+System Time: 1767982557.343756, Usage: 2.69%, Memory: 50700 kB
+System Time: 1767982558.343034, Usage: 1.51%, Memory: 50700 kB
+System Time: 1767982559.342955, Usage: 1.5%, Memory: 50700 kB
+System Time: 1767982560.345130, Usage: 1.46%, Memory: 50700 kB
+System Time: 1767982561.344068, Usage: 1.49%, Memory: 50700 kB
+System Time: 1767982562.345559, Usage: 1.33%, Memory: 50700 kB
+System Time: 1767982563.344501, Usage: 1.5%, Memory: 50700 kB
+System Time: 1767982564.345702, Usage: 1.35%, Memory: 50700 kB
+System Time: 1767982565.346085, Usage: 1.46%, Memory: 50700 kB
+System Time: 1767982566.346105, Usage: 1.42%, Memory: 50700 kB
+System Time: 1767982567.347420, Usage: 2.76%, Memory: 50700 kB
+System Time: 1767982568.347817, Usage: 1.54%, Memory: 50700 kB
+System Time: 1767982569.347880, Usage: 1.47%, Memory: 50700 kB
+System Time: 1767982570.348744, Usage: 1.44%, Memory: 50700 kB
+System Time: 1767982571.349305, Usage: 1.47%, Memory: 50700 kB
+System Time: 1767982572.347861, Usage: 1.46%, Memory: 50700 kB
+System Time: 1767982573.349319, Usage: 1.34%, Memory: 50700 kB
+System Time: 1767982574.350366, Usage: 1.35%, Memory: 50700 kB
+System Time: 1767982575.349610, Usage: 1.52%, Memory: 50700 kB
+System Time: 1767982576.350576, Usage: 1.35%, Memory: 50700 kB
+System Time: 1767982577.351110, Usage: 2.86%, Memory: 50700 kB
+System Time: 1767982578.352049, Usage: 1.38%, Memory: 50700 kB
+System Time: 1767982579.351740, Usage: 1.5%, Memory: 50700 kB
+System Time: 1767982580.354078, Usage: 1.34%, Memory: 50700 kB
+System Time: 1767982581.352494, Usage: 1.54%, Memory: 50700 kB
+System Time: 1767982582.356200, Usage: 1.39%, Memory: 50700 kB
+CPU Temperature: 49.388
+2026-01-09 20:16:22,516 [proc_stats.py:_handle_shutdown()] - Throttled Flags: 
